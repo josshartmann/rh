@@ -1,0 +1,133 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+{% if form.errors %}
+{% for error in form.errors %}
+<div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+    <strong>Error:</strong> Invalid {{error}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+<div class="container" id="create-employee">
+    <div class=" py-5 text-center">
+        <a href="{% url 'company' company.id %}">
+            <img class="d-block mx-auto mb-4 rounded-pill" src="{{company.logo.url}}" alt="Logo Empresa" width="144">
+        </a>
+        {% if page %}
+        <h2>Edit Employee- {{company.name}}</h2>
+        {% else %}
+        <h2>New Employee - {{company.name}}</h2>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col align-self-center">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" autocomplete="off" name="first_name"
+                            placeholder="" value="{{employee.first_name}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" autocomplete="off" name="last_name"
+                            placeholder="" value="{{employee.last_name}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" id="age" autocomplete="off" name="age" placeholder=""
+                            value="{{employee.age}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="salary">Salary</label>
+                        <input type="number" class="form-control" id="salary" autocomplete="off" name="salary"
+                            placeholder="" value="{{employee.salary}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="role">Role</label>
+                        <input type="text" class="form-control" id="role" autocomplete="off" name="role" placeholder=""
+                            value="{{employee.role}}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" autocomplete="off" name="phone"
+                            placeholder="" value="{{employee.phone}}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="department">Department</label>
+                        <select class="form-select" id="department" name="department" required>
+                            <option value="">Select...</option>
+                            {% for department in company.department_set.all %}
+                            {% if employee.department == department %}
+                            <option value="{{department.id}}" selected>{{department}}</option>
+                            {% else %}
+                            <option value="{{department.id}}">{{department}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        {% if employee.gender == 'M' %}
+                        <input id="male" name="gender" value="M" type="radio" class="custom-control-input" checked
+                            required>
+                        {% else %}
+                        <input id="male" name="gender" value="M" type="radio" class="custom-control-input" required>
+                        {% endif %}
+                        <label class="custom-control-label" for="male">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        {% if employee.gender == 'F' %}
+                        <input id="female" name="gender" value="F" type="radio" class="custom-control-input" checked
+                            required>
+                        {% else %}
+                        <input id="female" name="gender" value="F" type="radio" class="custom-control-input" required>
+                        {% endif %}
+                        <label class="custom-control-label" for="female">Female</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        {% if employee.gender == 'O' %}
+                        <input id="others" name="gender" value="O" type="radio" class="custom-control-input" checked
+                            required>
+                        {% else %}
+                        <input id="others" name="gender" value="O" type="radio" class="custom-control-input" required>
+                        {% endif %}
+                        <label class="custom-control-label" for="others">Non Binary</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" id="username" autocomplete="off" name="user"
+                            placeholder="Username" value="{{employee.user}}" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                    <input type="email" class="form-control" autocomplete="off" name="email"
+                        placeholder="you@example.com" value="{{employee.email|default_if_none:''}}">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="joining_date">Joining Date</label>
+                        <input type="date" class="form-control" autocomplete="off"
+                            value="{{employee.joining_date|date:'Y-m-d'}}" name="joining_date" required>
+                    </div>
+                    <div class="col-md-6 my-auto">
+                        <button class="btn btn-primary btn-lg col-12" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

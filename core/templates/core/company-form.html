@@ -1,0 +1,24 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <br>
+            <hr>
+            {% if page %}
+            <h3>Edit Company</h3>
+            {% else %}
+            <h3>New Company</h3>
+            {% endif %}
+            <hr>
+            <br>
+            <form method="POST" class="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Confirm" class="btn btn-outline-success col-4">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

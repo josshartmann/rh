@@ -1,0 +1,53 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center" id="employee-list">
+    <a href="{% url 'company' company.id %}"><img class="d-block mx-auto mb-4 rounded-pill" src="{{company.logo.url}}"
+            alt="" height="100"></a>
+    <h5 class="fw-bold">{{company.name}} - Departments: {{test}}</h5>
+    <div class="col-lg-6 mx-auto">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">N. of Employees</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for department in company.department_set.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{department.name}}</td>
+                    {% if department.status == True %}
+                    <td><i class="far fa-check-circle"></i></td>
+                    {% else %}
+                    <td>
+                        <i class="far fa-times-circle"></i>
+                    </td>
+                    {% endif %}
+                    <td>{{department.employee_set.count}}</td>
+                    <td><a href="{% url 'edit-department' department.id %}" class="text-reset"><i
+                                class="far fa-edit"></i></a></td>
+                    {% if department.employee_set.count == 0 %}
+                    <td><a href="{% url 'delete-department' department.id %}" class="text-reset"><i
+                                class="far fa-trash-alt"></i></a>
+                    </td>
+                    {% else %}
+                    <td><a class="text-reset">
+                            <i class="far fa-trash-alt fa-disabled" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Remove empolyees before delete">*</i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'create-department' company.id %}" class="btn btn-outline-success">New Department</a>
+    </div>
+</div>
+{% endblock %}

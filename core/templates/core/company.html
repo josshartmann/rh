@@ -1,0 +1,22 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center" style="display: block;" id="company-index">
+    <img class="d-block mx-auto mb-4 rounded-pill" src="{{company.logo.url}}" alt="" height="300">
+    <h1 class="ms-4">
+        {{company.name}}
+        <a href="{% url 'edit-company' company.id %}" class="text-reset">
+            <i class="far fa-edit fa-xs" style="font-size: 0.8rem; vertical-align: super;"></i>
+        </a>
+    </h1>
+
+    <div class="col-lg-6 mx-auto mt-4">
+        <div class="justify-content-center">
+            <a href="{% url 'employees' company.id %}" class="btn btn-outline-primary"
+                id="departments-list">Employees</a>
+            <a href="{% url 'departments' company.id %}" class="btn btn-outline-success"
+                id="departments-list">Departments</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

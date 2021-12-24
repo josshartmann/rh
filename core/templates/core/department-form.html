@@ -1,0 +1,26 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="py-5 text-center">
+                <hr>
+                {% if page %}
+                <h3>Edit Department</h3>
+                {% else %}
+                <a href="{% url 'company' company.id %}"><img class="d-block mx-auto mb-4 rounded-pill"
+                        src="{{company.logo.url}}" alt="Logo Empresa" height="144"></a>
+                <h3>New Department - {{company.name}}</h3>
+                {% endif %}
+                <hr>
+            </div>
+            <form method="POST" class="">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Confirm" class="btn btn-outline-success col-4">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center" id="employee-list">
+    <a href="{% url 'company' company.id %}"><img class="d-block mx-auto mb-4 rounded-pill" src="{{company.logo.url}}"
+            alt="" height="100"></a>
+    <h5 class="fw-bold">{{company.name}} - Employees:</h5>
+    <div class="col-lg-6 mx-auto">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Joining Date</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in company.employee_set.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{employee.first_name}} {{employee.last_name}}</td>
+                    <td>{{employee.gender}}</td>
+                    <td>{{employee.department}}</td>
+                    <td>{{employee.role}}</td>
+                    <td>{{employee.salary}}</td>
+                    <td>{{employee.age}}</td>
+                    <td>{{employee.joining_date}}</td>
+                    <td><a href="{% url 'edit-employee' employee.id %}" class="text-reset"><i
+                                class="far fa-edit"></i></a></td>
+                    <td><a href="{% url 'delete-employee' employee.id %}" class="text-reset" id="delete-employee"><i
+                                class="far fa-trash-alt"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if company.department_set.all.count > 0 %}
+        <a href="{% url 'create-employee' company.id %}" class="btn btn-outline-primary">New Employee</a>
+        {% else %}
+        <button class="btn btn-outline-primary" disabled>New Employee</button>
+        <p>*Before add an employee you need to create a department. Click <a
+                href="{% url 'create-department' company.id %}">here</a>.</p>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

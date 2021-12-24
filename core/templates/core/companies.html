@@ -1,0 +1,38 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-4 mb-4 text-center">Companies</h2>
+            <hr>
+        </div>
+        {% for company in companies %}
+        <div class="col-md-6 col-lg-4">
+            <!-- Bootstrap 5 card box -->
+            <div class="card-box">
+                <div class="card-thumbnail">
+                    <img src="{{company.logo.url}}" class="card-img-top" alt="">
+                </div>
+                <h5 class="mt-2 text-dark">{{company}}</h5>
+                <div class="d-flex">
+                    <a href="{% url 'company' company.pk %}" class="btn btn-primary col-8"><i
+                            class="fas fa-sign-in-alt"></i>
+                    </a>
+                    <a href="{% url 'edit-company' company.id %}" class="btn btn-success ms-1 me-1 col-2">
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <a href="{% url 'delete-company' company.pk %}" class="btn btn-danger ms-auto col-2">
+                        <i class="far fa-trash-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% if not companies %}
+        <h5 class="text-center mt-4">No companies in the database. Add a company <a
+                href="{% url 'create-company' %}">here</a>.</h5>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
